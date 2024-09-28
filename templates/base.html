@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1 shrink-to-fit=no">
+  <title>CS-Alumni Website</title>
+  {% load static %}
+  <link rel="stylesheet" type="text/css" href="{% static 'base.css' %}">
+  {% include "bootstrap.html" %}
+</head>
+
+<body>
+
+  <!--Navigation bar-->
+  {% load static %}
+  {% if user.is_authenticated %}
+  {% include "navbar.html" %}
+
+  <br>
+  <div class="container">
+    <form action="" method="POST" onsubmit="return validateForm();">
+      {% csrf_token %}
+      <h4><b>Help Requested</b></h4>
+      <input type="checkbox" id="coverLetter" name="cover_letter">
+      <label for="coverLetter" style="margin-left: 7px;">Cover Letter</label>
+      <input type="checkbox" id="careerPlanning" name="career_planning">
+      <label for="careerPlanning" style="margin-left: 7px;">Career Planning</label>
+      <br>
+      <input type="checkbox" id="resume" name="resume">
+      <label for="resume" style="margin-left: 7px;">Resume</label>
+      <input type="checkbox" id="mentorShadowing" name="mentor_shadowing">
+      <label for="mentorShadowing" style="margin-left: 7px;">Mentor Shadowing</label>
+      <br>
+      <input type="checkbox" id="mockInterview" name="mock_interview">
+      <label for="mockInterview" style="margin-left: 7px;">Mock Interview</label>
+      <input type="checkbox" id="other" name="other">
+      <label for="others" style="margin-left: 7px;">Other</label>
+      <br><br><br>
+
+      <!--Input Fields-->
+      <label for="documentLink">Link to document:</label>
+      <input type="url" id="documentLink" name="document_link" placeholder="Link to Google Drive or OneDrive pdf only"
+        size="15">
+
+      <br>
+      <label for="jobInterest">Job Interest:</label>
+      <input type="text" id="jobInterest" name="job_interest" placeholder="Your job interests.." maxlength="50"
+        size="15">
+      <br>
+      <label for="industryInterest">Industry Interest:</label>
+      <input type="text" id="industryInterest" name="industry_interest" placeholder="Your industry interests.."
+        maxlength="50" size="15">
+      <br>
+      <label for="supportUrgency">When do you hope to receive the support?</label>
+      <select id="supportUrgency" name="support_urgency">
+        <option value="within_1_week">Within 1 Week</option>
+        <option value="within_2_weeks">Within 2 Weeks</option>
+        <option value="within_1_month">Within 1 Month</option>
+        <option value="within_2_months">Within 2 Months</option>
+        <option value="no_urgent_need" selected>No Urgent Need</option>
+      </select>
+      <br>
+      <label for="description">Description:</label>
+      <textarea id="description" name="description" placeholder="Your description here.." rows="10" cols="50"
+        maxlength="10000"></textarea>
+      <br>
+      <input type="hidden" name="status" id="status_field" value="">
+      <input type="reset" value="Reset">
+      <input type="submit" value="Save as Draft" onclick="setStatus('draft');">
+      <input type="submit" value="Submit" id="submit-button">
+      <br>
+      <br>
+
+    </form>
+  </div>
+  <script>
+    function setStatus(status) {
+      document.getElementById("status_field").value = status;
+    }
+
+    function isValidDocumentLink(url) {
+      // Regular expressions to match Google Drive, OneDrive, and SharePoint links
+      var googleDriveRegex = /^https:\/\/drive\.google\.com\/.*$/;
+      var oneDriveRegex = /^https:\/\/onedrive\.live\.com\/.*$/;
+      var sharepointRegex = /^https:\/\/.*\.sharepoint\.com\/.*$/;
+
+      return googleDriveRegex.test(url) || oneDriveRegex.test(url) || sharepointRegex.test(url);
+    }
+
+    function validateForm() {
+      var coverLetter = document.getElementById("coverLetter").checked;
+      var resume = document.getElementById("resume").checked;
+      var careerPlanning = document.getElementById("careerPlanning").checked;
+      var other = document.getElementById("other").checked;
+      var mentorShadowing = document.getElementById("mentorShadowing").checked;
+      var mockInterview = document.getElementById("mockInterview").checked;
+      var description = document.getElementById("description").value.trim();
+
+      if (!coverLetter && !resume && !mentorShadowing && !mockInterview && !other && !careerPlanning) {
+        alert("Please select at least one category for assistance.");
+        return false;
+      }
+
+      var documentLink = document.getElementById("documentLink").value.trim();
+
+      if ((coverLetter || resume) && !isValidDocumentLink(documentLink)) {
+        alert("Please provide a valid Google Drive, OneDrive, or SharePoint link for Cover Letter or Resume.");
+        return false;
+      }
+
+      if ((other) && !description) {
+        alert("Please provide detailed information in the comments section below to help us better understand your specific needs.");
+        return false;
+      }
+
+      return true;
+    }
+
+    document.getElementById("submit-button").addEventListener("click", function () {
+      setStatus('submitted');
+    });
+
+  </script>
+
+
+  <div class="container">
+    {% if form_submitted %}
+    <p>Thank you for submitting your career advancement support request!</p>
+    <a href="{% url 'viewmyrequests' %}" id="viewRequests" class="btn btn-primary viewRequests">View My
+      Requests</a>
+    {% endif %}
+    {% if form_drafted %}
+    <p>Your request has been saved as a draft.</p>
+    <a href="{% url 'draft' %}" id="draft" class="btn btn-primary draft" style="background-color: #cc0808">View My
+      Drafts</a>
+    {% endif %}
+  </div>
+  {% endif %}
+</body>
+
+</html>
