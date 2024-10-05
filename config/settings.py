@@ -26,7 +26,7 @@ SECRET_KEY = "django-insecure-x9n3+2d+2&*=psnxrioi8@wo%sy^nlyx&(-c+@xfeibu_nt7!s
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['alumniapp.onrender.com', 'localhost', '127.0.0.1']
 
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 EMAIL_HOST = "smtp.gmail.com"
@@ -86,12 +86,12 @@ WSGI_APPLICATION = "config.wsgi.application"
 
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.postgresql",
-        "NAME": "postgres",
-        "USER": "postgres",
-        "PASSWORD": "postgres",
-        "HOST": "db",
-        "PORT": 5432,
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'alumniapp_db_tn19',  # Database name
+        'USER': 'alumniapp_user',      # Database username
+        'PASSWORD': '5cmY5t9ykFhlRAjtYODpbv88lNFLgar3',  # Database password
+        'HOST': 'dpg-cs0sb6ggph6c73ae4tog-a.virginia-postgres.render.com',  # Database host
+        'PORT': '5432',  # Default PostgreSQL port
     }
 }
 
