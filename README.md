@@ -64,4 +64,4 @@ When developing code for this project, we should implement some standard practic
 * **Product Owner:** Betty Jean Jaskoviak <bjjasko@gmail.com>
 You can also refer to our [Confluence](https://clarku.atlassian.net/wiki/home) for more info about the team and our processes
 
-Current Team: Chris Atharv Debrin Lev
+Current Team: Dylan and Aubrey
