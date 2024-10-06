@@ -13,8 +13,8 @@ echo "Initializing data"
 python manage.py initialize_groups
 
 # Create admin user -- REMOVE THIS FOR PRODUCTION
-echo "Create admin user"
-python manage.py safe_createsuperuser admin@clarku.edu admin
+# echo "Create admin user"
+# python manage.py safe_createsuperuser admin@clarku.edu admin
 
 # Start server
 echo "Starting server"

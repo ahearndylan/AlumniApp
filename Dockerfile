@@ -20,3 +20,6 @@ RUN set -ex ;\
 
 # Copy project
 COPY . .
+
+# Expose port 8000 to the outside world
+EXPOSE 8000
