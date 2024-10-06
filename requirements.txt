@@ -11,3 +11,4 @@ pre-commit==3.4.0
 psycopg==3.1.10
 psycopg-binary==3.1.10
 sqlparse==0.4.4
+whitenoise==6.7.0
