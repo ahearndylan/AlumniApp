@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# Stop on the first sign of trouble
+set -e
+
 # Collect static files
 echo "Collect static files"
 python manage.py collectstatic --noinput
@@ -12,10 +15,8 @@ python manage.py migrate
 echo "Initializing data"
 python manage.py initialize_groups
 
-# Create admin user -- REMOVE THIS FOR PRODUCTION
-# echo "Create admin user"
-# python manage.py safe_createsuperuser admin@clarku.edu admin
+# The line to create an admin user should be manually handled if needed
 
-# Start server
-echo "Starting server"
-python manage.py runserver 0.0.0.0:8000
+# Start Gunicorn server
+echo "Starting Gunicorn server"
+gunicorn config.wsgi:application --bind 0.0.0.0:8000
